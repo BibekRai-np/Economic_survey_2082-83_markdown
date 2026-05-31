@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>नेपाल आर्थिक सर्वेक्षण २०८२/८३</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Eczar:wght@400;600;700;800&family=Yatra+One&family=Tiro+Devanagari+Hindi:ital@0;1&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --crimson: #B5162B;
+    --deep-red: #8B0D1F;
+    --gold: #D4A017;
+    --gold-light: #F0C040;
+    --cream: #FDF8F0;
+    --dark: #1A0A0F;
+    --text-dark: #2D1A20;
+    --text-med: #5A3A42;
+    --slate: #3D2A30;
+    --white: #FFFFFF;
+    --bg-card: rgba(255,255,255,0.95);
+    --shadow: 0 8px 32px rgba(181,22,43,0.12);
+    --shadow-hover: 0 16px 48px rgba(181,22,43,0.22);
+    --border: 1px solid rgba(181,22,43,0.15);
+    --gradient-hero: linear-gradient(135deg, #1A0A0F 0%, #3D1520 40%, #B5162B 100%);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #F8EEE6;
+    color: var(--text-dark);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: var(--gradient-hero);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 60px 20px 80px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4A017' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-flag {
+    width: 80px; height: 80px;
+    background: var(--gold);
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    margin-bottom: 24px;
+    animation: flagwave 3s ease-in-out infinite;
+  }
+  @keyframes flagwave { 0%,100%{transform:rotate(-3deg)} 50%{transform:rotate(3deg)} }
+  .hero-badge {
+    background: rgba(212,160,23,0.2);
+    border: 1px solid rgba(212,160,23,0.5);
+    color: var(--gold-light);
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 3px; text-transform: uppercase;
+    padding: 6px 20px; border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: 'Yatra One', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    color: #FFFFFF;
+    text-align: center; line-height: 1.2;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    margin-bottom: 8px;
+  }
+  .hero-sub {
+    font-family: 'Eczar', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    color: var(--gold-light);
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .hero-ministry {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 1rem; color: rgba(255,255,255,0.7);
+    text-align: center; margin-bottom: 40px;
+  }
+  .hero-stats {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    justify-content: center; margin-bottom: 50px;
+  }
+  .hero-stat {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(212,160,23,0.3);
+    border-radius: 16px; padding: 20px 28px;
+    text-align: center; backdrop-filter: blur(10px);
+    min-width: 140px;
+    transition: transform 0.3s, background 0.3s;
+  }
+  .hero-stat:hover { transform: translateY(-4px); background: rgba(255,255,255,0.14); }
+  .hero-stat .num {
+    font-family: 'Eczar', serif;
+    font-size: 2.2rem; font-weight: 800;
+    color: var(--gold-light); display: block;
+  }
+  .hero-stat .lbl {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.75rem; color: rgba(255,255,255,0.75);
+    margin-top: 4px;
+  }
+  .hero-scroll {
+    position: absolute; bottom: 30px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 8px; cursor: pointer;
+    animation: bounce 2s infinite;
+  }
+  .hero-scroll span { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 2px; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+  /* ===== NAV ===== */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(26,10,15,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(181,22,43,0.3);
+    padding: 0 20px;
+  }
+  .nav-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; gap: 0;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    padding: 14px 18px;
+    color: rgba(255,255,255,0.6);
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.82rem; font-weight: 500;
+    cursor: pointer; border: none; background: none;
+    white-space: nowrap; border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold);
+  }
+
+  /* ===== MAIN LAYOUT ===== */
+  main { max-width: 1400px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* ===== SECTIONS ===== */
+  .section { margin-bottom: 80px; opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+  .section.visible { opacity: 1; transform: none; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 32px;
+  }
+  .section-icon {
+    width: 56px; height: 56px; border-radius: 16px;
+    background: var(--gradient-hero);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(181,22,43,0.3);
+  }
+  .section-title {
+    font-family: 'Yatra One', serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--deep-red);
+  }
+  .section-desc {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.9rem; color: var(--text-med);
+    margin-top: 4px;
+  }
+
+  /* ===== CARDS ===== */
+  .cards-grid { display: grid; gap: 20px; }
+  .cards-2 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .cards-3 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .cards-4 { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+
+  .card {
+    background: var(--bg-card);
+    border: var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--gradient-hero);
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+
+  .card-icon { font-size: 2rem; margin-bottom: 12px; }
+  .card-label {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.82rem; color: var(--text-med);
+    margin-bottom: 6px;
+  }
+  .card-value {
+    font-family: 'Eczar', serif;
+    font-size: 2rem; font-weight: 800;
+    color: var(--crimson); line-height: 1;
+  }
+  .card-unit { font-size: 0.9rem; font-weight: 400; color: var(--text-med); }
+  .card-note {
+    font-size: 0.75rem; color: var(--text-med);
+    margin-top: 8px; font-family: 'Tiro Devanagari Hindi', serif;
+  }
+  .card-trend {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 0.75rem; font-weight: 600;
+    padding: 3px 8px; border-radius: 8px;
+    margin-top: 8px;
+  }
+  .up { background: #E8F5E9; color: #2E7D32; }
+  .down { background: #FFEBEE; color: #C62828; }
+  .neutral { background: #FFF8E1; color: #F57F17; }
+
+  /* ===== HIGHLIGHT BOX ===== */
+  .highlight-box {
+    background: var(--gradient-hero);
+    border-radius: 24px;
+    padding: 32px 36px;
+    color: white;
+    position: relative; overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .highlight-box::after {
+    content: '🇳🇵';
+    position: absolute; right: 24px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 80px; opacity: 0.1;
+  }
+  .highlight-box h3 {
+    font-family: 'Yatra One', serif;
+    font-size: 1.1rem; color: var(--gold-light);
+    margin-bottom: 16px;
+  }
+  .highlight-row {
+    display: flex; flex-wrap: wrap; gap: 24px;
+  }
+  .highlight-item { flex: 1; min-width: 120px; }
+  .highlight-num {
+    font-family: 'Eczar', serif;
+    font-size: 2.4rem; font-weight: 800;
+    color: white; display: block;
+  }
+  .highlight-lbl {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.78rem; color: rgba(255,255,255,0.75);
+    margin-top: 4px;
+  }
+
+  /* ===== CHART WRAPPER ===== */
+  .chart-wrap {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    border: var(--border);
+    margin-bottom: 20px;
+  }
+  .chart-title {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 1rem; font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+  }
+  .chart-wrap canvas { max-height: 300px; }
+
+  /* ===== TABLE ===== */
+  .table-wrap {
+    background: white; border-radius: 20px;
+    overflow: hidden; box-shadow: var(--shadow);
+    border: var(--border); margin-bottom: 20px;
+  }
+  .table-wrap table { width: 100%; border-collapse: collapse; }
+  .table-wrap th {
+    background: var(--gradient-hero);
+    color: white;
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.82rem; font-weight: 600;
+    padding: 14px 16px; text-align: left;
+  }
+  .table-wrap td {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.82rem; padding: 12px 16px;
+    border-bottom: 1px solid rgba(181,22,43,0.06);
+    color: var(--text-dark);
+  }
+  .table-wrap tr:last-child td { border-bottom: none; }
+  .table-wrap tr:nth-child(even) td { background: rgba(181,22,43,0.025); }
+  .table-wrap tr:hover td { background: rgba(212,160,23,0.05); }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-item { margin-bottom: 16px; }
+  .progress-top {
+    display: flex; justify-content: space-between;
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.85rem; color: var(--text-dark);
+    margin-bottom: 8px;
+  }
+  .progress-val { font-family: 'Eczar', serif; font-weight: 700; color: var(--crimson); }
+  .progress-bar {
+    height: 10px; background: #F0E0E0;
+    border-radius: 8px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 8px;
+    background: linear-gradient(90deg, var(--crimson), var(--gold));
+    transition: width 1.5s cubic-bezier(.16,1,.3,1);
+    width: 0;
+  }
+
+  /* ===== INFO BLOCK ===== */
+  .info-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); }
+  .info-block {
+    background: white; border-radius: 16px;
+    padding: 20px; border-left: 4px solid var(--crimson);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .info-block h4 {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.95rem; font-weight: 700;
+    color: var(--deep-red); margin-bottom: 10px;
+  }
+  .info-block p {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.83rem; color: var(--text-med); line-height: 1.7;
+  }
+
+  /* ===== PROVINCE MAP VISUAL ===== */
+  .province-grid {
+    display: grid; gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+  }
+  .province-card {
+    border-radius: 16px; padding: 20px 16px;
+    text-align: center; cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .province-card:hover { transform: scale(1.04); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+  .province-card .p-name {
+    font-family: 'Yatra One', serif;
+    font-size: 1rem; color: white; margin-bottom: 6px;
+  }
+  .province-card .p-gdp {
+    font-family: 'Eczar', serif;
+    font-size: 1.5rem; font-weight: 800; color: white;
+  }
+  .province-card .p-lbl { font-size: 0.65rem; color: rgba(255,255,255,0.75); }
+
+  /* ===== TABS ===== */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .tab-btn {
+    padding: 8px 18px; border-radius: 10px; border: none;
+    font-family: 'Tiro Devanagari Hindi', serif; font-size: 0.83rem;
+    cursor: pointer; transition: all 0.2s;
+    background: rgba(181,22,43,0.08); color: var(--text-med);
+  }
+  .tab-btn.active { background: var(--crimson); color: white; }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* ===== QUOTE ===== */
+  .quote-box {
+    background: rgba(212,160,23,0.08);
+    border: 1px solid rgba(212,160,23,0.3);
+    border-radius: 16px; padding: 24px;
+    margin-bottom: 20px;
+  }
+  .quote-box p {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.95rem; line-height: 1.8;
+    color: var(--text-dark); font-style: italic;
+  }
+  .quote-box cite {
+    display: block; margin-top: 12px;
+    font-size: 0.8rem; color: var(--text-med); font-style: normal;
+    font-weight: 600;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--dark);
+    padding: 40px 20px; text-align: center;
+  }
+  footer p {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    color: rgba(255,255,255,0.5); font-size: 0.82rem;
+  }
+  footer strong { color: var(--gold-light); }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #F8EEE6; }
+  ::-webkit-scrollbar-thumb { background: var(--crimson); border-radius: 3px; }
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:640px) {
+    .hero-stats { gap: 12px; }
+    .hero-stat { min-width: 110px; padding: 14px 16px; }
+    .hero-stat .num { font-size: 1.8rem; }
+    main { padding: 24px 14px 60px; }
+  }
+
+  /* Animate number counter */
+  .counter-ready { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero" id="home">
+  <div class="hero-flag">🏔️</div>
+  <div class="hero-badge">नेपाल सरकार · अर्थ मन्त्रालय · २०८३</div>
+  <h1 class="hero-title">आर्थिक सर्वेक्षण</h1>
+  <div class="hero-sub">२०८२/८३</div>
+  <div class="hero-ministry">नेपाल सरकार · अर्थ मन्त्रालय · सिंहदरबार, काठमाडौं</div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="num">३.८५%</span>
+      <div class="lbl">GDP वृद्धिदर</div>
+    </div>
+    <div class="hero-stat">
+      <span class="num">२.१३%</span>
+      <div class="lbl">मुद्रास्फीति</div>
+    </div>
+    <div class="hero-stat">
+      <span class="num">$१,५१३</span>
+      <div class="lbl">प्रतिव्यक्ति GDP</div>
+    </div>
+    <div class="hero-stat">
+      <span class="num">३७.७%</span>
+      <div class="lbl">विप्रेषण वृद्धि</div>
+    </div>
+    <div class="hero-stat">
+      <span class="num">99.1%</span>
+      <div class="lbl">विद्युत पहुँच</div>
+    </div>
+    <div class="hero-stat">
+      <span class="num">BB-</span>
+      <div class="lbl">Credit Rating</div>
+    </div>
+  </div>
+
+  <a class="hero-scroll" href="#content">
+    <span>SCROLL</span>
+    <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </a>
+</header>
+
+<!-- NAV -->
+<nav id="content">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="scrollTo('#gdp')">📊 आर्थिक वृद्धि</button>
+    <button class="nav-btn" onclick="scrollTo('#public-finance')">🏛️ सार्वजनिक वित्त</button>
+    <button class="nav-btn" onclick="scrollTo('#monetary')">🏦 मौद्रिक क्षेत्र</button>
+    <button class="nav-btn" onclick="scrollTo('#external')">🌐 बाह्य क्षेत्र</button>
+    <button class="nav-btn" onclick="scrollTo('#poverty')">🤝 गरिबी/रोजगारी</button>
+    <button class="nav-btn" onclick="scrollTo('#agri')">🌾 कृषि/वन</button>
+    <button class="nav-btn" onclick="scrollTo('#industry')">🏭 उद्योग/पर्यटन</button>
+    <button class="nav-btn" onclick="scrollTo('#energy')">⚡ ऊर्जा/पूर्वाधार</button>
+    <button class="nav-btn" onclick="scrollTo('#social')">📚 सामाजिक क्षेत्र</button>
+    <button class="nav-btn" onclick="scrollTo('#province')">🗺️ प्रदेश</button>
+    <button class="nav-btn" onclick="scrollTo('#climate')">🌿 जलवायु/SDG</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ===== 1. GDP & ECONOMIC GROWTH ===== -->
+<section class="section" id="gdp">
+  <div class="section-header">
+    <div class="section-icon">📊</div>
+    <div>
+      <div class="section-title">समग्र आर्थिक स्थिति</div>
+      <div class="section-desc">GDP वृद्धिदर, संरचना र विश्व अर्थतन्त्रको तुलना</div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>कार्यकारी सारांश — आर्थिक वर्ष २०८२/८३</h3>
+    <div class="highlight-row">
+      <div class="highlight-item">
+        <span class="highlight-num">३.८५%</span>
+        <div class="highlight-lbl">नेपालको GDP वृद्धिदर</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">रु. ६६ खर्ब</span>
+        <div class="highlight-lbl">कुल GDP अनुमान</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">$१,५१३</span>
+        <div class="highlight-lbl">प्रतिव्यक्ति GDP (USD)</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">$२,०४४</span>
+        <div class="highlight-lbl">प्रतिव्यक्ति राष्ट्रिय खर्चयोग्य आय</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-4" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-icon">🌍</div>
+      <div class="card-label">विश्व GDP वृद्धि (सन् २०२६)</div>
+      <div class="card-value">३.१%</div>
+      <div class="card-note">मध्यपूर्वी द्वन्द्व र व्यापार अवरोधले प्रभावित</div>
+      <span class="card-trend down">▼ पहिलेको भन्दा कम</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🇳🇵</div>
+      <div class="card-label">नेपाल GDP वृद्धि (२०८२/८३)</div>
+      <div class="card-value">३.८५%</div>
+      <div class="card-note">गत वर्ष ४.४३% थियो</div>
+      <span class="card-trend down">▼ ४.४३% → ३.८५%</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌾</div>
+      <div class="card-label">कृषि क्षेत्र वृद्धि</div>
+      <div class="card-value">१.५८%</div>
+      <div class="card-note">GDP मा योगदान: २४%</div>
+      <span class="card-trend down">▼ गत वर्ष ३.०५%</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏗️</div>
+      <div class="card-label">गैरकृषि क्षेत्र वृद्धि</div>
+      <div class="card-value">४.५४%</div>
+      <div class="card-note">GDP मा योगदान: ७६%</div>
+      <span class="card-trend up">▲ गत वर्ष ४.१२%</span>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; flex-wrap:wrap;">
+    <div class="chart-wrap">
+      <div class="chart-title">GDP क्षेत्रगत संरचना (आ.व. २०८२/८३)</div>
+      <canvas id="gdpSectorChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">नेपालको GDP वृद्धिदर — पछिल्ला वर्षहरू</div>
+      <canvas id="gdpGrowthChart"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">दक्षिण एसियाली मुलुकहरूको आर्थिक वृद्धिदर तुलना (सन् २०२५ अनुमान)</div>
+    <canvas id="southAsiaChart"></canvas>
+  </div>
+
+  <div class="cards-grid cards-3">
+    <div class="card">
+      <div class="card-icon">📦</div>
+      <div class="card-label">प्राथमिक क्षेत्र (कृषि)</div>
+      <div class="card-value">२४.४६% <span class="card-unit">GDP</span></div>
+      <div class="card-note">कृषि, वन, मत्स्यपालन</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏭</div>
+      <div class="card-label">द्वितीयक क्षेत्र (उद्योग)</div>
+      <div class="card-value">१३.७३% <span class="card-unit">GDP</span></div>
+      <div class="card-note">उत्पादन, निर्माण, ऊर्जा</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💼</div>
+      <div class="card-label">सेवा क्षेत्र</div>
+      <div class="card-value">६१.८१% <span class="card-unit">GDP</span></div>
+      <div class="card-note">व्यापार, पर्यटन, वित्त, सञ्चार</div>
+    </div>
+  </div>
+
+  <div class="info-grid" style="margin-top:20px;">
+    <div class="info-block">
+      <h4>उपभोग र लगानी</h4>
+      <p>GDP मा उपभोगको अंश ९०.३%। निजी क्षेत्र ९१.२६%, सरकारी ६.६२%, गैसस २.१२%। लगानी दर GDP को करिब १५-१७%।</p>
+    </div>
+    <div class="info-block">
+      <h4>विश्व जोखिम</h4>
+      <p>मध्यपूर्वी युद्ध लम्बिए विश्व GDP २% मा सीमित हुन सक्छ। मुद्रास्फीति ६% माथि जाने जोखिम। पेट्रोलियम मूल्य वृद्धिले नेपाललाई प्रत्यक्ष असर।</p>
+    </div>
+    <div class="info-block">
+      <h4>सार्वभौम क्रेडिट रेटिङ</h4>
+      <p>सन् २०२५ मा नेपालले पहिलोपटक S&P बाट BB- Stable Outlook क्रेडिट रेटिङ प्राप्त गर्‍यो। यसले विदेशी लगानीकर्तामा सकारात्मक सन्देश दिएको छ।</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2. PUBLIC FINANCE ===== -->
+<section class="section" id="public-finance">
+  <div class="section-header">
+    <div class="section-icon">🏛️</div>
+    <div>
+      <div class="section-title">सार्वजनिक वित्त</div>
+      <div class="section-desc">राजस्व, खर्च, सार्वजनिक ऋण र अन्तरसरकारी वित्त</div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+    <h3>एकीकृत वित्त स्थिति — आ.व. २०८१/८२</h3>
+    <div class="highlight-row">
+      <div class="highlight-item">
+        <span class="highlight-num">रु.१२.८२ खर्ब</span>
+        <div class="highlight-lbl">एकीकृत राजस्व सङ्कलन</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">रु.१७.७५ खर्ब</span>
+        <div class="highlight-lbl">एकीकृत खर्च</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">रु.२८.७८ खर्ब</span>
+        <div class="highlight-lbl">कुल सार्वजनिक ऋण</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">४३.६%</span>
+        <div class="highlight-lbl">ऋण/GDP अनुपात</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-2" style="margin-bottom:24px;">
+    <div class="chart-wrap">
+      <div class="chart-title">सङ्घीय खर्चको संरचना (आ.व. २०८१/८२)</div>
+      <canvas id="expenditureChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">सार्वजनिक ऋण — आन्तरिक बनाम बाह्य</div>
+      <canvas id="debtChart"></canvas>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-3" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-icon">📈</div>
+      <div class="card-label">सङ्घीय खर्च वृद्धि (फागुनसम्म)</div>
+      <div class="card-value">१०.४%</div>
+      <div class="card-note">चालु आ.व. को फागुनसम्म</div>
+      <span class="card-trend up">▲ वृद्धि</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">💰</div>
+      <div class="card-label">सङ्घीय राजस्व वृद्धि (फागुनसम्म)</div>
+      <div class="card-value">३.२%</div>
+      <div class="card-note">चालु आ.व. को फागुनसम्म</div>
+      <span class="card-trend neutral">~ सुस्त वृद्धि</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚖️</div>
+      <div class="card-label">वित्त सन्तुलन घाटा</div>
+      <div class="card-value">रु.५८.०१ अर्ब</div>
+      <div class="card-note">फागुनसम्मको वित्त घाटा</div>
+      <span class="card-trend down">▼ घाटामा</span>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-bottom:24px;">
+    <table>
+      <thead>
+        <tr>
+          <th>विवरण</th>
+          <th>रकम</th>
+          <th>GDP को %</th>
+          <th>अवस्था</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>सङ्घीय चालु खर्च</td><td>रु. ९ खर्ब ४५ अर्ब ७८ करोड</td><td>१५.५%</td><td><span class="card-trend up">▲ बढेको</span></td></tr>
+        <tr><td>सङ्घीय पुँजीगत खर्च</td><td>रु. ४ खर्ब ९६ अर्ब ६२ करोड</td><td>~८%</td><td><span class="card-trend neutral">~ सामान्य</span></td></tr>
+        <tr><td>कुल सार्वजनिक ऋण</td><td>रु. २८ खर्ब ७८ अर्ब ३०करोड</td><td>४३.६%</td><td><span class="card-trend neutral">~ व्यवस्थापनयोग्य</span></td></tr>
+        <tr><td>आन्तरिक ऋण</td><td>४६.८% हिस्सा</td><td>~२०.४%</td><td></td></tr>
+        <tr><td>बाह्य ऋण</td><td>५३.२% हिस्सा</td><td>~२३.२%</td><td></td></tr>
+        <tr><td>अन्तरसरकारी हस्तान्तरण</td><td>रु. ३ खर्ब ७३ अर्ब ९८करोड</td><td>—</td><td><span class="card-trend up">▲ ३.७% वृद्धि</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cards-grid cards-3">
+    <div class="card">
+      <div class="card-icon">🏢</div>
+      <div class="card-label">सार्वजनिक संस्थान (कुल ४५ मध्ये)</div>
+      <div class="card-value">२७ <span class="card-unit">नाफामा</span></div>
+      <div class="card-note">१६ नोक्सानमा, २ बन्द</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <div class="card-label">सरकारी शेयर लगानी</div>
+      <div class="card-value">रु. ३.७० खर्ब</div>
+      <div class="card-note">२०८२ असारसम्म</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💳</div>
+      <div class="card-label">सरकारी ऋण लगानी</div>
+      <div class="card-value">रु. ४.२८ खर्ब</div>
+      <div class="card-note">कुल: रु. ७.९९ खर्ब</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 3. MONETARY & FINANCIAL ===== -->
+<section class="section" id="monetary">
+  <div class="section-header">
+    <div class="section-icon">🏦</div>
+    <div>
+      <div class="section-title">मौद्रिक तथा वित्तीय क्षेत्र</div>
+      <div class="section-desc">बैंकिङ, मुद्रास्फीति, शेयर बजार, बीमा</div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-4" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-icon">💹</div>
+      <div class="card-label">उपभोक्ता मुद्रास्फीति (फागुनसम्म)</div>
+      <div class="card-value">२.१३%</div>
+      <div class="card-note">गत वर्ष ४.७२% थियो</div>
+      <span class="card-trend up">▼ घटेको (सकारात्मक)</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏧</div>
+      <div class="card-label">कुल निक्षेप खाता</div>
+      <div class="card-value">६.२ करोड</div>
+      <div class="card-note">बैंक तथा वित्तीय संस्था</div>
+      <span class="card-trend up">▲ विस्तार</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">📉</div>
+      <div class="card-label">निष्क्रिय कर्जा (NPL)</div>
+      <div class="card-value">५.४२%</div>
+      <div class="card-note">औसत अनुपात</div>
+      <span class="card-trend neutral">~ सतर्कतायोग्य</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">📱</div>
+      <div class="card-label">मोबाइल बैंकिङ प्रयोगकर्ता</div>
+      <div class="card-value">२.९४ करोड</div>
+      <div class="card-note">इन्टरनेट बैंकिङ: २३.७४ लाख</div>
+      <span class="card-trend up">▲ उच्च वृद्धि</span>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-2" style="margin-bottom:24px;">
+    <div class="chart-wrap">
+      <div class="chart-title">बैंकिङ प्रमुख सूचकहरू (२०८२ फागुन)</div>
+      <canvas id="bankingChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">मुद्रास्फीतिको प्रवृत्ति (वार्षिक %)</div>
+      <canvas id="inflationChart"></canvas>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-3" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <div class="card-label">NEPSE सूचकाङ्क (फागुन मसान्त)</div>
+      <div class="card-value">२,८२०.४५</div>
+      <div class="card-note">बजार पुँजीकरण: रु. ५.४७ खर्ब ४४ अर्ब</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📁</div>
+      <div class="card-label">डिम्याट खाता</div>
+      <div class="card-value">७६.३९ लाख</div>
+      <div class="card-note">जनसङ्ख्याको ~२६%</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📲</div>
+      <div class="card-label">QR आधारित कारोबार</div>
+      <div class="card-value">रु. ५.१ खर्ब+</div>
+      <div class="card-note">डिजिटल भुक्तानीमा उल्लेख्य वृद्धि</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'banking-tab')">बैंकिङ</button>
+    <button class="tab-btn" onclick="switchTab(this,'insurance-tab')">बीमा</button>
+    <button class="tab-btn" onclick="switchTab(this,'finance-tab')">वित्त सूचक</button>
+  </div>
+
+  <div class="tab-pane active" id="banking-tab">
+    <div class="cards-grid cards-3">
+      <div class="card">
+        <div class="card-label">कर्जा/निक्षेप अनुपात</div>
+        <div class="card-value">७४.०७%</div>
+      </div>
+      <div class="card">
+        <div class="card-label">कुल निक्षेप</div>
+        <div class="card-value">रु. ५.७७ खर्ब</div>
+        <div class="card-note">६.६४% वृद्धि</div>
+      </div>
+      <div class="card">
+        <div class="card-label">निजी क्षेत्र कर्जा</div>
+        <div class="card-value">रु. ५.५७ खर्ब</div>
+        <div class="card-note">४.४% वृद्धि (सुस्त)</div>
+      </div>
+      <div class="card">
+        <div class="card-label">प्राथमिक पुँजी अनुपात</div>
+        <div class="card-value">९.६१%</div>
+      </div>
+      <div class="card">
+        <div class="card-label">कुल पुँजी अनुपात</div>
+        <div class="card-value">१२.६४%</div>
+      </div>
+      <div class="card">
+        <div class="card-label">कर्जा खाता सङ्ख्या</div>
+        <div class="card-value">२०.४ लाख</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="insurance-tab">
+    <div class="info-grid">
+      <div class="info-block">
+        <h4>जीवन बीमा</h4>
+        <p>जीवन बीमा कम्पनीहरूको विस्तार भैरहेको छ। प्रदेश स्तरसम्म शाखा विस्तार। स्वास्थ्य बीमामा २१.४८ लाख+ नागरिक आवद्ध।</p>
+      </div>
+      <div class="info-block">
+        <h4>निर्जीवन बीमा</h4>
+        <p>बाली तथा पशुधन बीमामा विस्तार। विपत् जोखिम बीमाको प्रबन्ध। निक्षेप सुरक्षण कोषको विस्तार।</p>
+      </div>
+      <div class="info-block">
+        <h4>डिजिटल वित्त</h4>
+        <p>QR भुक्तानी रु. ५.१ खर्ब। ConnectIPS, RTGS विस्तार। ECC (Electronic Cheque Clearing) बढ्दो। POS कारोबारमा उल्लेख्य वृद्धि।</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="finance-tab">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>वित्तीय सूचक</th><th>मान</th><th>टिप्पणी</th></tr></thead>
+        <tbody>
+          <tr><td>प्राथमिक पुँजी/जोखिम भारित सम्पत्ति</td><td>९.६१%</td><td>नियामक सीमाभित्र</td></tr>
+          <tr><td>कुल पुँजी अनुपात</td><td>१२.६४%</td><td>पर्याप्त</td></tr>
+          <tr><td>कर्जा/निक्षेप अनुपात</td><td>७४.०७%</td><td>उचित</td></tr>
+          <tr><td>कुल निक्षेपमा कर्जाको अंश</td><td>८०.०७%</td><td>—</td></tr>
+          <tr><td>NPL (निष्क्रिय कर्जा)</td><td>५.४२%</td><td>सावधानी आवश्यक</td></tr>
+          <tr><td>बैंक शाखा विस्तार</td><td>सबै प्रदेशमा</td><td>वित्तीय पहुँच बढ्दो</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. EXTERNAL SECTOR ===== -->
+<section class="section" id="external">
+  <div class="section-header">
+    <div class="section-icon">🌐</div>
+    <div>
+      <div class="section-title">बाह्य क्षेत्र</div>
+      <div class="section-desc">व्यापार, विप्रेषण, विदेशी मुद्रा सञ्चिति</div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="background: linear-gradient(135deg, #0D3B2E 0%, #1B5E3A 50%, #2E7D32 100%);">
+    <h3>बाह्य क्षेत्रका प्रमुख उपलब्धि (फागुनसम्म)</h3>
+    <div class="highlight-row">
+      <div class="highlight-item">
+        <span class="highlight-num">रु. ५.१४ खर्ब</span>
+        <div class="highlight-lbl">विप्रेषण आप्रवाह</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">+३७.७%</span>
+        <div class="highlight-lbl">विप्रेषण वृद्धिदर</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">रु. ३४.१४ खर्ब</span>
+        <div class="highlight-lbl">विदेशी मुद्रा सञ्चिति</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">१८.५ महिना</span>
+        <div class="highlight-lbl">आयात धान्ने क्षमता</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-2" style="margin-bottom:24px;">
+    <div class="chart-wrap">
+      <div class="chart-title">विप्रेषण आप्रवाह प्रवृत्ति (अर्बमा, फागुनसम्म)</div>
+      <canvas id="remittanceChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">वस्तु व्यापार — आयात बनाम निर्यात</div>
+      <canvas id="tradeChart"></canvas>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-4">
+    <div class="card">
+      <div class="card-icon">✈️</div>
+      <div class="card-label">व्यापार घाटा</div>
+      <div class="card-value">रु.५.११ खर्ब</div>
+      <div class="card-note">११.२% वृद्धि</div>
+      <span class="card-trend down">▲ घाटा बढ्यो</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">📤</div>
+      <div class="card-label">कुल व्यापारमा निर्यात</div>
+      <div class="card-value">१२.९%</div>
+      <div class="card-note">निर्यातको हिस्सा</div>
+      <span class="card-trend neutral">~ कम</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">💵</div>
+      <div class="card-label">चालु खाता बचत</div>
+      <div class="card-value">रु.५.५३ खर्ब</div>
+      <div class="card-note">विप्रेषणले घाटा ढाक्यो</div>
+      <span class="card-trend up">▲ बचत</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌏</div>
+      <div class="card-label">शोधनान्तर बचत</div>
+      <div class="card-value">रु.५.५८ खर्ब</div>
+      <div class="card-note">उच्च विप्रेषणको प्रभाव</div>
+      <span class="card-trend up">▲ बचत</span>
+    </div>
+  </div>
+
+  <div class="info-block" style="margin-top:20px;">
+    <h4>वैदेशिक रोजगारी</h4>
+    <p>वैदेशिक रोजगारीमा जान श्रम स्वीकृति लिने नेपाली कामदारको सङ्ख्या ६९ लाख नाघेको छ। चालु वर्षमा मात्र <strong>२.७३ लाख नयाँ</strong> र <strong>२.५१ लाख पुनः</strong> श्रम स्वीकृति जारी भए। e-Passport वितरण <strong>५५.१६ लाख</strong> पुगेको छ। मध्यपूर्वी युद्धले विप्रेषणमा थप असर पर्न सक्ने जोखिम छ।</p>
+  </div>
+</section>
+
+<!-- ===== 5. POVERTY & EMPLOYMENT ===== -->
+<section class="section" id="poverty">
+  <div class="section-header">
+    <div class="section-icon">🤝</div>
+    <div>
+      <div class="section-title">गरिबी निवारण, रोजगारी र सामाजिक सुरक्षा</div>
+      <div class="section-desc">गरिबी दर, HDI, वैदेशिक रोजगारी, सामाजिक सुरक्षा</div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-4" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-icon">🏠</div>
+      <div class="card-label">निरपेक्ष गरिबी दर</div>
+      <div class="card-value">२०.२७%</div>
+      <span class="card-trend up">▼ घटेको</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">📐</div>
+      <div class="card-label">बहुआयामिक गरिबी</div>
+      <div class="card-value">१७.४%</div>
+      <span class="card-trend up">▼ घटेको</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧑‍💼</div>
+      <div class="card-label">मानव विकास सूचकाङ्क (HDI)</div>
+      <div class="card-value">०.६२२</div>
+      <div class="card-note">१६७ देशमा माझोलो</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">👴</div>
+      <div class="card-label">सामाजिक सुरक्षा भत्ता लाभग्राही</div>
+      <div class="card-value">३६.४१ लाख</div>
+      <div class="card-note">जेठ नागरिक ४६.१३%</div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-2" style="margin-bottom:24px;">
+    <div class="chart-wrap">
+      <div class="chart-title">गरिबी र सामाजिक सूचकाङ्क</div>
+      <canvas id="povertyChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">वैदेशिक रोजगारी — नयाँ श्रम स्वीकृति (वार्षिक)</div>
+      <canvas id="laborChart"></canvas>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-3">
+    <div class="card">
+      <div class="card-icon">⚖️</div>
+      <div class="card-label">जिनी गुणक</div>
+      <div class="card-value">०.३०</div>
+      <div class="card-note">उपभोगमा आधारित असमानता</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">👫</div>
+      <div class="card-label">लैँगिक विकास सूचकाङ्क</div>
+      <div class="card-value">०.८८५</div>
+      <div class="card-note">लैँगिक समानतामा सुधार</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏗️</div>
+      <div class="card-label">सामाजिक सुरक्षा कोषमा श्रमिक</div>
+      <div class="card-value">२८.५ लाख</div>
+      <div class="card-note">वैदेशिक रोजगार: ७५.९%</div>
+    </div>
+  </div>
+
+  <div class="info-grid" style="margin-top:20px;">
+    <div class="info-block">
+      <h4>आयु र स्वास्थ्य</h4>
+      <p>औसत आयु <strong>७१.३ वर्ष</strong> (पुरुष ६८.२, महिला ७३.८)। युवा साक्षरता दर <strong>९४.२%</strong>।</p>
+    </div>
+    <div class="info-block">
+      <h4>आवास</h4>
+      <p>जनता आवास: <strong>४७,७२०</strong> निर्माण। भूकम्पपश्चात <strong>७,७३,९८७</strong> आवास पुनर्निर्माण सम्पन्न।</p>
+    </div>
+    <div class="info-block">
+      <h4>सहकारी क्षेत्र</h4>
+      <p><strong>३२,३२५</strong> सहकारी संस्था। <strong>१.०१ करोड</strong> सदस्य। रु. <strong>१०.२९ खर्ब</strong> बचत परिचालन।</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6. AGRICULTURE & FORESTRY ===== -->
+<section class="section" id="agri">
+  <div class="section-header">
+    <div class="section-icon">🌾</div>
+    <div>
+      <div class="section-title">कृषि, भूमिसुधार र वन</div>
+      <div class="section-desc">बाली उत्पादन, सिँचाइ, वन क्षेत्र, पशुपालन</div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-4" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-icon">🌲</div>
+      <div class="card-label">वन क्षेत्र</div>
+      <div class="card-value">४६.०८%</div>
+      <div class="card-note">कुल भू-भागको</div>
+      <span class="card-trend up">▲ विश्व औसत ३२%</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">💧</div>
+      <div class="card-label">सिँचाइ सुविधा</div>
+      <div class="card-value">६२.६%</div>
+      <div class="card-note">सिँचाइयोग्य जमिन</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧪</div>
+      <div class="card-label">रासायनिक मल</div>
+      <div class="card-value">आपूर्ति</div>
+      <div class="card-note">आ.व. २०८१/८२ मा आपूर्ति</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📦</div>
+      <div class="card-label">कृषि आधुनिकीकरण</div>
+      <div class="card-value">२१ सुपरजोन</div>
+      <div class="card-note">२०६ जोन, १,६९९ ब्लक, ९,३९३ पकेट</div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">कृषि उत्पादन — प्रमुख बाली (हजार मेट्रिक टन)</div>
+    <canvas id="agriChart"></canvas>
+  </div>
+
+  <div class="cards-grid cards-3">
+    <div class="card">
+      <div class="card-icon">🐄</div>
+      <div class="card-label">पशुपालन विस्तार</div>
+      <div class="card-value">बढ्दो</div>
+      <div class="card-note">पशुपन्छी खोप उत्पादन र वितरण</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🐟</div>
+      <div class="card-label">मत्स्यपालन</div>
+      <div class="card-value">विस्तार</div>
+      <div class="card-note">मत्स्य बीउ उत्पादन बढ्दो</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🗺️</div>
+      <div class="card-label">अनलाइन भूमि दर्ता</div>
+      <div class="card-value">१३५ कार्यालय</div>
+      <div class="card-note">LRIMS लागू भएको</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 7. INDUSTRY, TRADE & TOURISM ===== -->
+<section class="section" id="industry">
+  <div class="section-header">
+    <div class="section-icon">🏭</div>
+    <div>
+      <div class="section-title">उद्योग, वाणिज्य, आपूर्ति, पर्यटन र संस्कृति</div>
+      <div class="section-desc">उद्योग दर्ता, विदेशी लगानी, पर्यटन, हवाई सेवा</div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="background: linear-gradient(135deg, #1A237E 0%, #283593 50%, #3949AB 100%);">
+    <h3>उद्योग तथा लगानी क्षेत्र</h3>
+    <div class="highlight-row">
+      <div class="highlight-item">
+        <span class="highlight-num">रु. ५४.४४ खर्ब</span>
+        <div class="highlight-lbl">कुल उद्योग लगानी स्वीकृत</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">११,१४०</span>
+        <div class="highlight-lbl">दर्ता उद्योग (फागुनसम्म)</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">७,९५१</span>
+        <div class="highlight-lbl">FDI परियोजना</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">रु. ६.२६ खर्ब</span>
+        <div class="highlight-lbl">स्वीकृत विदेशी लगानी</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-2" style="margin-bottom:24px;">
+    <div class="chart-wrap">
+      <div class="chart-title">उद्योग वर्गीकरण अनुसार हिस्सा</div>
+      <canvas id="industryChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">पर्यटन — वर्षगत आगमन र बसाइ अवधि</div>
+      <canvas id="tourismChart"></canvas>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-4" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-icon">✈️</div>
+      <div class="card-label">पर्यटक आगमन (२०२५)</div>
+      <div class="card-value">११.६२ लाख</div>
+      <span class="card-trend up">▲ पुनरुत्थान</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🗓️</div>
+      <div class="card-label">औसत बसाइ अवधि</div>
+      <div class="card-value">१६.३४ दिन</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💵</div>
+      <div class="card-label">प्रति पर्यटक दैनिक खर्च</div>
+      <div class="card-value">$३३.०८</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛩️</div>
+      <div class="card-label">विमानस्थल सञ्चालन</div>
+      <div class="card-value">३५</div>
+      <div class="card-note">३२ अन्तर्राष्ट्रिय वायुसेवा</div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>क्षेत्र</th><th>FDI हिस्सा</th><th>टिप्पणी</th></tr></thead>
+      <tbody>
+        <tr><td>सेवा उद्योग</td><td>२८.३%</td><td>सबैभन्दा बढी</td></tr>
+        <tr><td>उत्पादन उद्योग</td><td>उल्लेखनीय</td><td>दोस्रो ठूलो</td></tr>
+        <tr><td>खनिज उद्योग</td><td>१.३%</td><td>सबैभन्दा कम</td></tr>
+        <tr><td>कम्पनी दर्ता (कुल)</td><td>३,६९,६४६</td><td>प्राइभेट लिमिटेड ९७.५%</td></tr>
+        <tr><td>उद्योगबाट रोजगारी अनुमान</td><td>~७.८५ लाख</td><td>दर्ता उद्योगबाट</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-block">
+    <h4>पेट्रोलियम खपतमा परिवर्तन</h4>
+    <p>विद्युतको प्रयोग बढेसँगै पेट्रोलियम पदार्थको खपत घट्दो छ। <strong>पेट्रोल आयात १०.०%</strong> र <strong>डिजेल आयात ९.९%</strong> घटेको छ। यो ऊर्जा रूपान्तरणको सकारात्मक संकेत हो।</p>
+  </div>
+</section>
+
+<!-- ===== 8. ENERGY & INFRASTRUCTURE ===== -->
+<section class="section" id="energy">
+  <div class="section-header">
+    <div class="section-icon">⚡</div>
+    <div>
+      <div class="section-title">शहरी विकास, ऊर्जा तथा भौतिक पूर्वाधार</div>
+      <div class="section-desc">जलविद्युत, सडक, रेलमार्ग, सञ्चार</div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="background: linear-gradient(135deg, #004D40 0%, #00695C 50%, #00897B 100%);">
+    <h3>ऊर्जा तथा पूर्वाधारका उपलब्धि</h3>
+    <div class="highlight-row">
+      <div class="highlight-item">
+        <span class="highlight-num">99.1%</span>
+        <div class="highlight-lbl">विद्युत पहुँच</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">४,१०५ MW</span>
+        <div class="highlight-lbl">कुल जडित क्षमता</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">१,०४,९०६ km</span>
+        <div class="highlight-lbl">कुल सडक</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">१०३.२</span>
+        <div class="highlight-lbl">मोबाइल ग्राहक घनत्व</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-2" style="margin-bottom:24px;">
+    <div class="chart-wrap">
+      <div class="chart-title">विद्युत क्षमता विस्तार (मेगावाट)</div>
+      <canvas id="energyChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">सञ्चार तथा इन्टरनेट विस्तार (लाखमा)</div>
+      <canvas id="telecomChart"></canvas>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-4" style="margin-bottom:24px;">
+    <div class="card">
+      <div class="card-icon">💡</div>
+      <div class="card-label">जलविद्युत जडित क्षमता</div>
+      <div class="card-value">३,७९८ MW</div>
+      <div class="card-note">कुल ४,१०५ MW मध्ये</div>
+      <span class="card-trend up">▲ वृद्धि</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🇮🇳</div>
+      <div class="card-label">भारततर्फ विद्युत निर्यात</div>
+      <div class="card-value">२,९१८ GWh</div>
+      <div class="card-note">चालु आ.व.मा</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛣️</div>
+      <div class="card-label">कालोपत्रे सडक घनत्व</div>
+      <div class="card-value">१३८.७ m/km²</div>
+      <div class="card-note">सङ्घीय निर्मित</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📺</div>
+      <div class="card-label">डिजिटल टेलिभिजन पहुँच</div>
+      <div class="card-value">८२.०%</div>
+      <div class="card-note">घरधुरी</div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:20px;">
+    <div class="card" style="background: linear-gradient(135deg, #E3F2FD, #F3E5F5);">
+      <div class="card-icon">🌐</div>
+      <div class="card-label">इन्टरनेट प्रयोगकर्ता विस्तार</div>
+      <p style="font-family:'Tiro Devanagari Hindi',serif; font-size:0.85rem; margin-top:10px; line-height:1.8; color: var(--text-dark);">
+        <strong>मोबाइल टेलिफोन ग्राहक घनत्व:</strong> १०३.२ (प्रति १०० जनसङ्ख्या)<br>
+        <strong>मोबाइल बैंकिङ:</strong> २.९४ करोड प्रयोगकर्ता<br>
+        <strong>इन्टरनेट बैंकिङ:</strong> २३.७४ लाख प्रयोगकर्ता<br>
+        <strong>4G सेवा:</strong> व्यापक विस्तार भैरहेको
+      </p>
+    </div>
+  </div>
+
+  <!-- Progress bars for key indicators -->
+  <div class="chart-wrap">
+    <div class="chart-title">प्रमुख पूर्वाधार पहुँच सूचकाङ्क</div>
+    <div class="progress-item"><div class="progress-top"><span>विद्युत पहुँच</span><span class="progress-val">99.1%</span></div><div class="progress-bar"><div class="progress-fill" data-width="99.1"></div></div></div>
+    <div class="progress-item"><div class="progress-top"><span>मोबाइल टेलिफोन घनत्व (प्रति १०० जना)</span><span class="progress-val">103.2</span></div><div class="progress-bar"><div class="progress-fill" data-width="100"></div></div></div>
+    <div class="progress-item"><div class="progress-top"><span>आधारभूत खानेपानी पहुँच</span><span class="progress-val">97.0%</span></div><div class="progress-bar"><div class="progress-fill" data-width="97"></div></div></div>
+    <div class="progress-item"><div class="progress-top"><span>सुरक्षित खानेपानी पहुँच</span><span class="progress-val">29.0%</span></div><div class="progress-bar"><div class="progress-fill" data-width="29"></div></div></div>
+    <div class="progress-item"><div class="progress-top"><span>डिजिटल टेलिभिजन पहुँच</span><span class="progress-val">82.0%</span></div><div class="progress-bar"><div class="progress-fill" data-width="82"></div></div></div>
+    <div class="progress-item"><div class="progress-top"><span>सिँचाइयोग्य जमिनमा सिँचाइ</span><span class="progress-val">62.6%</span></div><div class="progress-bar"><div class="progress-fill" data-width="62.6"></div></div></div>
+  </div>
+</section>
+
+<!-- ===== 9. SOCIAL SECTOR ===== -->
+<section class="section" id="social">
+  <div class="section-header">
+    <div class="section-icon">📚</div>
+    <div>
+      <div class="section-title">सामाजिक क्षेत्र</div>
+      <div class="section-desc">स्वास्थ्य, शिक्षा, खानेपानी, लैँगिक समानता</div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-2" style="margin-bottom:24px;">
+    <div>
+      <div class="section-header" style="margin-bottom:16px;">
+        <div class="section-icon" style="width:40px;height:40px;font-size:18px;">🏥</div>
+        <div><div class="section-title" style="font-size:1.2rem;">स्वास्थ्य क्षेत्र</div></div>
+      </div>
+      <div class="cards-grid cards-2">
+        <div class="card">
+          <div class="card-label">सरकारी स्वास्थ्य संस्था</div>
+          <div class="card-value">८,९७६</div>
+        </div>
+        <div class="card">
+          <div class="card-label">मातृ मृत्युदर (प्रति लाख)</div>
+          <div class="card-value">१५१</div>
+          <span class="card-trend up">▼ घटेको</span>
+        </div>
+        <div class="card">
+          <div class="card-label">शिशु मृत्युदर (प्रति हजार)</div>
+          <div class="card-value">२७</div>
+        </div>
+        <div class="card">
+          <div class="card-label">स्वास्थ्य बीमा आवद्ध</div>
+          <div class="card-value">२१.४८ लाख+</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-header" style="margin-bottom:16px;">
+        <div class="section-icon" style="width:40px;height:40px;font-size:18px;">📖</div>
+        <div><div class="section-title" style="font-size:1.2rem;">शिक्षा क्षेत्र</div></div>
+      </div>
+      <div class="cards-grid cards-2">
+        <div class="card">
+          <div class="card-label">आधारभूत तह भर्नादर</div>
+          <div class="card-value">९७.८%</div>
+        </div>
+        <div class="card">
+          <div class="card-label">माध्यमिक तह भर्नादर</div>
+          <div class="card-value">५१.६%</div>
+        </div>
+        <div class="card">
+          <div class="card-label">HDI स्कोर (२०२५)</div>
+          <div class="card-value">०.६२२</div>
+        </div>
+        <div class="card">
+          <div class="card-label">युवा साक्षरता दर</div>
+          <div class="card-value">९४.२%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrap" style="margin-bottom:24px;">
+    <div class="chart-title">सामाजिक सूचकाङ्कको तुलना</div>
+    <canvas id="socialChart"></canvas>
+  </div>
+
+  <div class="cards-grid cards-3">
+    <div class="card">
+      <div class="card-icon">💊</div>
+      <div class="card-label">दर्ता औषधि ब्राण्ड</div>
+      <div class="card-value">२२,३०५</div>
+      <div class="card-note">स्वदेशी: १३,५९४</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🩺</div>
+      <div class="card-label">विपन्न नागरिक उपचार लाभग्राही</div>
+      <div class="card-value">३३,५८१</div>
+      <div class="card-note">क्यान्सर, मुटु, मृगौला निःशुल्क</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🆔</div>
+      <div class="card-label">राष्ट्रिय परिचयपत्र वितरण</div>
+      <div class="card-value">४०.३३ लाख</div>
+      <div class="card-note">२.०१ करोड विवरण सङ्कलन</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 10. PROVINCES ===== -->
+<section class="section" id="province">
+  <div class="section-header">
+    <div class="section-icon">🗺️</div>
+    <div>
+      <div class="section-title">प्रदेश र स्थानीय तहको आर्थिक स्थिति</div>
+      <div class="section-desc">७ प्रदेशको GDP योगदान, प्रतिव्यक्ति आय, खर्च</div>
+    </div>
+  </div>
+
+  <div class="province-grid" style="margin-bottom:24px;">
+    <div class="province-card" style="background: linear-gradient(135deg, #c62828, #e53935);">
+      <div class="p-name">कोशी प्रदेश</div>
+      <div class="p-gdp">१५.८%</div>
+      <div class="p-lbl">GDP योगदान</div>
+    </div>
+    <div class="province-card" style="background: linear-gradient(135deg, #ad1457, #e91e63);">
+      <div class="p-name">मधेश प्रदेश</div>
+      <div class="p-gdp">१३.१%</div>
+      <div class="p-lbl">GDP योगदान · सबैभन्दा कम प्रतिव्यक्ति आय ($९३४)</div>
+    </div>
+    <div class="province-card" style="background: linear-gradient(135deg, #4527a0, #7b1fa2);">
+      <div class="p-name">वागमती प्रदेश</div>
+      <div class="p-gdp">३६.७%</div>
+      <div class="p-lbl">GDP योगदान · सबैभन्दा बढी प्रतिव्यक्ति ($२,६४४)</div>
+    </div>
+    <div class="province-card" style="background: linear-gradient(135deg, #1565c0, #1976d2);">
+      <div class="p-name">गण्डकी प्रदेश</div>
+      <div class="p-gdp">९.०%</div>
+      <div class="p-lbl">GDP योगदान</div>
+    </div>
+    <div class="province-card" style="background: linear-gradient(135deg, #2e7d32, #388e3c);">
+      <div class="p-name">लुम्बिनी प्रदेश</div>
+      <div class="p-gdp">१४.२%</div>
+      <div class="p-lbl">GDP योगदान</div>
+    </div>
+    <div class="province-card" style="background: linear-gradient(135deg, #e65100, #f57c00);">
+      <div class="p-name">कर्णाली प्रदेश</div>
+      <div class="p-gdp">४.२%</div>
+      <div class="p-lbl">GDP योगदान · सबैभन्दा कम</div>
+    </div>
+    <div class="province-card" style="background: linear-gradient(135deg, #37474f, #546e7a);">
+      <div class="p-name">सुदूरपश्चिम</div>
+      <div class="p-gdp">७.०%</div>
+      <div class="p-lbl">GDP योगदान</div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-2" style="margin-bottom:24px;">
+    <div class="chart-wrap">
+      <div class="chart-title">प्रदेशगत GDP योगदान (२०८२/८३)</div>
+      <canvas id="provinceChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">प्रदेशगत प्रतिव्यक्ति आय (USD)</div>
+      <canvas id="provinceIncomeChart"></canvas>
+    </div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-block">
+      <h4>स्थानीय तह खर्च</h4>
+      <p>कुल खर्च रु. १.९१ खर्ब। बागमती प्रदेशका स्थानीय तहको खर्च भार सबैभन्दा बढी ०.२४, कर्णालीको सबैभन्दा कम ०.०८।</p>
+    </div>
+    <div class="info-block">
+      <h4>वागमती-गण्डकी अग्रणी</h4>
+      <p>वागमती र गण्डकी प्रदेश बाहेक अन्य सबै प्रदेशको आर्थिक वृद्धिदर राष्ट्रिय औसतभन्दा कम रहने अनुमान। विकेन्द्रीकरण आवश्यक।</p>
+    </div>
+    <div class="info-block">
+      <h4>प्रदेश स्तरीय शिक्षा</h4>
+      <p>SEE (कक्षा १०) परिणाम, विद्यालय वितरण र शिक्षक सङ्ख्यामा उल्लेखनीय भिन्नता। सबै प्रदेशमा वित्तीय समन्वय बढाउनुपर्ने।</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 11. CLIMATE & SDG ===== -->
+<section class="section" id="climate">
+  <div class="section-header">
+    <div class="section-icon">🌿</div>
+    <div>
+      <div class="section-title">जलवायु परिवर्तन र दीर्घकालीन विकास लक्ष्य</div>
+      <div class="section-desc">हरितगृह ग्यास, कार्बन व्यापार, SDG प्रगति, LDC उत्तरण</div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #388E3C 100%);">
+    <h3>हरित अर्थतन्त्र र दिगो विकास</h3>
+    <div class="highlight-row">
+      <div class="highlight-item">
+        <span class="highlight-num">68.58</span>
+        <div class="highlight-lbl">SDG सूचकाङ्क स्कोर (२०२५)</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">८५औँ</span>
+        <div class="highlight-lbl">विश्वमा स्थान (१६७ देशमध्ये)</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">$३.६ करोड</span>
+        <div class="highlight-lbl">कार्बन व्यापार राजस्व</div>
+      </div>
+      <div class="highlight-item">
+        <span class="highlight-num">रु.७.५५ खर्ब</span>
+        <div class="highlight-lbl">वार्षिक थप लगानी आवश्यक (SDG)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-2" style="margin-bottom:24px;">
+    <div class="chart-wrap">
+      <div class="chart-title">नेपालको हरितगृह ग्यास उत्सर्जन क्षेत्रगत हिस्सा</div>
+      <canvas id="ghgChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">SDG लक्ष्य अनुसार प्रगति स्कोर (अनुमानित)</div>
+      <canvas id="sdgChart"></canvas>
+    </div>
+  </div>
+
+  <div class="cards-grid cards-3">
+    <div class="card">
+      <div class="card-icon">🌡️</div>
+      <div class="card-label">वैश्विक तापक्रम वृद्धि</div>
+      <div class="card-value">+१.४५°C</div>
+      <div class="card-note">पूर्व औद्योगिक स्तरभन्दा (WMO 2023/24)</div>
+      <span class="card-trend down">⚠️ खतरनाक</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌳</div>
+      <div class="card-label">वन क्षेत्र (नेपाल)</div>
+      <div class="card-value">४६.०८%</div>
+      <div class="card-note">विश्व औसत ३२%भन्दा बढी</div>
+      <span class="card-trend up">▲ सकारात्मक</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">💨</div>
+      <div class="card-label">REDD+ र कार्बन व्यापार</div>
+      <div class="card-value">सक्रिय</div>
+      <div class="card-note">$३.६ करोड USD आम्दानी शुरु</div>
+      <span class="card-trend up">▲ नयाँ राजस्व</span>
+    </div>
+  </div>
+
+  <div class="info-grid" style="margin-top:20px;">
+    <div class="info-block">
+      <h4>LDC उत्तरण</h4>
+      <p>नेपालले अल्पविकसित देशको सूचीबाट बाहिर निस्किने (LDC Graduation) लागि आवश्यक मापदण्ड पूरा गर्दै गइरहेको छ। EVI, HAI र GNI मापदण्डमा सुधार भइरहेको छ।</p>
+    </div>
+    <div class="info-block">
+      <h4>NDC लक्ष्य</h4>
+      <p>नेपालले राष्ट्रिय रूपमा निर्धारित योगदान (NDC) मार्फत् ग्रीन हाउस ग्यास उत्सर्जन घटाउने प्रतिबद्धता। नवीकरणीय ऊर्जा विस्तार मुख्य रणनीति।</p>
+    </div>
+    <div class="info-block">
+      <h4>SDG फाइनान्सिङ</h4>
+      <p>SDG प्राप्तिका लागि बाँकी अवधिमा वार्षिक औसत <strong>रु. ७ खर्ब ५५ अर्ब</strong> थप लगानी आवश्यक। स्पिलओभर स्कोर ९४.८५ उत्साहजनक।</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>नेपाल आर्थिक सर्वेक्षण २०८२/८३</strong></p>
+  <p style="margin-top:8px;">स्रोत: अर्थ मन्त्रालय, नेपाल सरकार · सिंहदरबार, काठमाडौं · जेठ, २०८३</p>
+  <p style="margin-top:6px;">तथ्याङ्क: फागुनसम्मको प्रारम्भिक तथ्याङ्क · Interactive Webpage</p>
+</footer>
+
+<script>
+// ===== SCROLL ANIMATION =====
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // Animate progress bars
+      e.target.querySelectorAll('.progress-fill').forEach(bar => {
+        setTimeout(() => {
+          bar.style.width = bar.dataset.width + '%';
+        }, 200);
+      });
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// ===== NAV SCROLL =====
+function scrollTo(id) {
+  document.querySelector(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ===== TABS =====
+function switchTab(btn, id) {
+  const parent = btn.closest('section');
+  parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  parent.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ===== CHART DEFAULTS =====
+Chart.defaults.font.family = "'Tiro Devanagari Hindi', 'Poppins', sans-serif";
+Chart.defaults.color = '#5A3A42';
+const crimson = '#B5162B';
+const gold = '#D4A017';
+const darkBlue = '#1A237E';
+const green = '#2E7D32';
+const teal = '#00695C';
+const purple = '#7B1FA2';
+
+const palette = [crimson, gold, darkBlue, green, teal, purple, '#E65100', '#37474F'];
+
+// ===== CHARTS =====
+
+// GDP SECTOR PIE
+new Chart(document.getElementById('gdpSectorChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['प्राथमिक (कृषि)', 'द्वितीयक (उद्योग)', 'सेवा क्षेत्र'],
+    datasets: [{
+      data: [24.46, 13.73, 61.81],
+      backgroundColor: [green, gold, crimson],
+      borderWidth: 3, borderColor: '#fff'
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: {
+        callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}%` }
+      }
+    },
+    cutout: '65%'
+  }
+});
+
+// GDP GROWTH LINE
+new Chart(document.getElementById('gdpGrowthChart'), {
+  type: 'line',
+  data: {
+    labels: ['२०७८/७९', '२०७९/८०', '२०८०/८१', '२०८१/८२', '२०८२/८३'],
+    datasets: [{
+      label: 'GDP वृद्धिदर (%)',
+      data: [5.6, 1.9, 3.9, 4.43, 3.85],
+      borderColor: crimson, backgroundColor: 'rgba(181,22,43,0.1)',
+      tension: 0.4, fill: true, pointRadius: 6,
+      pointBackgroundColor: crimson
+    }, {
+      label: 'कृषि वृद्धि (%)',
+      data: [2.3, -0.3, 3.5, 3.05, 1.58],
+      borderColor: green, backgroundColor: 'rgba(46,125,50,0.05)',
+      tension: 0.4, borderDash: [6,3], pointRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom' } },
+    scales: { y: { beginAtZero: false, ticks: { callback: v => v + '%' } } }
+  }
+});
+
+// SOUTH ASIA BAR
+new Chart(document.getElementById('southAsiaChart'), {
+  type: 'bar',
+  data: {
+    labels: ['भारत', 'बंगलादेश', 'नेपाल', 'श्रीलंका', 'पाकिस्तान', 'भुटान', 'चीन', 'अफगानिस्तान'],
+    datasets: [{
+      label: 'GDP वृद्धिदर %',
+      data: [6.5, 5.7, 3.85, 4.2, 3.1, 5.1, 4.8, -0.9],
+      backgroundColor: ['rgba(181,22,43,0.8)','rgba(212,160,23,0.8)','rgba(181,22,43,1)','rgba(46,125,50,0.8)','rgba(0,105,92,0.8)','rgba(123,31,162,0.8)','rgba(26,35,126,0.8)','rgba(55,71,79,0.8)'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true, ticks: { callback: v => v + '%' } } }
+  }
+});
+
+// EXPENDITURE PIE
+new Chart(document.getElementById('expenditureChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['चालु खर्च', 'पुँजीगत खर्च', 'वित्तीय व्यवस्था'],
+    datasets: [{
+      data: [53.2, 28.0, 18.8],
+      backgroundColor: [crimson, gold, darkBlue],
+      borderWidth: 3, borderColor: '#fff'
+    }]
+  },
+  options: { plugins: { legend: { position: 'bottom' } }, cutout: '60%' }
+});
+
+// DEBT BAR
+new Chart(document.getElementById('debtChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['आन्तरिक ऋण', 'बाह्य ऋण'],
+    datasets: [{
+      data: [46.8, 53.2],
+      backgroundColor: [gold, crimson],
+      borderWidth: 3, borderColor: '#fff'
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}% (कुल रु. २८.७८ खर्ब)` } }
+    },
+    cutout: '60%'
+  }
+});
+
+// BANKING RADAR
+new Chart(document.getElementById('bankingChart'), {
+  type: 'radar',
+  data: {
+    labels: ['पुँजी पर्याप्तता', 'तरलता', 'NPL व्यवस्थापन', 'कर्जा वृद्धि', 'डिजिटल सेवा', 'शाखा विस्तार'],
+    datasets: [{
+      label: 'बैंकिङ स्वास्थ्य सूचक',
+      data: [75, 80, 55, 45, 85, 78],
+      backgroundColor: 'rgba(181,22,43,0.15)',
+      borderColor: crimson, pointBackgroundColor: crimson, pointRadius: 5
+    }]
+  },
+  options: {
+    scales: { r: { min: 0, max: 100, ticks: { stepSize: 25 } } },
+    plugins: { legend: { display: false } }
+  }
+});
+
+// INFLATION LINE
+new Chart(document.getElementById('inflationChart'), {
+  type: 'line',
+  data: {
+    labels: ['२०७९ फागुन', '२०८०/८१', '२०८१ फागुन', '२०८२ फागुन'],
+    datasets: [{
+      label: 'मुद्रास्फीति (%)',
+      data: [7.8, 6.2, 4.72, 2.13],
+      borderColor: crimson, backgroundColor: 'rgba(181,22,43,0.1)',
+      tension: 0.4, fill: true, pointRadius: 6,
+      pointBackgroundColor: crimson
+    }, {
+      label: 'लक्ष्य सीमा',
+      data: [6.5, 6.5, 6.5, 6.5],
+      borderColor: gold, borderDash: [5, 5], pointRadius: 0
+    }]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom' } },
+    scales: { y: { ticks: { callback: v => v + '%' } } }
+  }
+});
+
+// REMITTANCE BAR
+new Chart(document.getElementById('remittanceChart'), {
+  type: 'bar',
+  data: {
+    labels: ['२०७९/८० फागुन', '२०८०/८१ फागुन', '२०८१/८२ फागुन', '२०८२/८३ फागुन'],
+    datasets: [{
+      label: 'विप्रेषण (अर्बमा)',
+      data: [690, 847, 1123, 1450],
+      backgroundColor: [
+        'rgba(181,22,43,0.5)',
+        'rgba(181,22,43,0.65)',
+        'rgba(181,22,43,0.8)',
+        'rgba(181,22,43,1)'
+      ],
+      borderRadius: 8
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: { y: { ticks: { callback: v => 'रु.' + v } } }
+  }
+});
+
+// TRADE BAR
+new Chart(document.getElementById('tradeChart'), {
+  type: 'bar',
+  data: {
+    labels: ['आयात', 'निर्यात', 'घाटा'],
+    datasets: [{
+      label: 'रु. अर्बमा (फागुनसम्म)',
+      data: [1179, 157, 1022],
+      backgroundColor: [crimson, green, gold],
+      borderRadius: 8
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: { y: { ticks: { callback: v => 'रु.' + v + 'अर्ब' } } }
+  }
+});
+
+// POVERTY CHART
+new Chart(document.getElementById('povertyChart'), {
+  type: 'bar',
+  data: {
+    labels: ['निरपेक्ष गरिबी', 'बहुआयामिक गरिबी', 'जिनी गुणक ×१००', 'HDI स्कोर ×१०'],
+    datasets: [{
+      label: 'सूचकाङ्क मान',
+      data: [20.27, 17.4, 30, 6.22],
+      backgroundColor: [crimson, gold, green, darkBlue],
+      borderRadius: 8
+    }]
+  },
+  options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+});
+
+// LABOR CHART
+new Chart(document.getElementById('laborChart'), {
+  type: 'line',
+  data: {
+    labels: ['२०७८/७९', '२०७९/८०', '२०८०/८१', '२०८१/८२', '२०८२/८३ (फा.)'],
+    datasets: [{
+      label: 'नयाँ श्रम स्वीकृति (हजारमा)',
+      data: [180, 210, 240, 260, 273],
+      borderColor: gold, backgroundColor: 'rgba(212,160,23,0.1)',
+      tension: 0.4, fill: true, pointRadius: 6, pointBackgroundColor: gold
+    }, {
+      label: 'पुनः श्रम स्वीकृति (हजारमा)',
+      data: [200, 220, 235, 248, 251],
+      borderColor: crimson, backgroundColor: 'rgba(181,22,43,0.05)',
+      tension: 0.4, borderDash: [5, 3], pointRadius: 4
+    }]
+  },
+  options: { plugins: { legend: { position: 'bottom' } } }
+});
+
+// AGRI CHART
+new Chart(document.getElementById('agriChart'), {
+  type: 'bar',
+  data: {
+    labels: ['धान', 'गहुँ', 'मकै', 'आलु', 'दलहन'],
+    datasets: [
+      { label: '२०८०/८१', data: [5600, 2100, 3200, 3100, 330], backgroundColor: 'rgba(212,160,23,0.6)', borderRadius: 4 },
+      { label: '२०८१/८२', data: [5750, 2150, 3300, 3200, 340], backgroundColor: 'rgba(46,125,50,0.6)', borderRadius: 4 },
+      { label: '२०८२/८३ (अनुमान)', data: [5820, 2180, 3350, 3250, 345], backgroundColor: 'rgba(181,22,43,0.8)', borderRadius: 4 }
+    ]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom' } },
+    scales: { y: { ticks: { callback: v => v + ' हजार मे.ट.' } } }
+  }
+});
+
+// INDUSTRY PIE
+new Chart(document.getElementById('industryChart'), {
+  type: 'pie',
+  data: {
+    labels: ['साना (५६.१%)', 'मझोला (२०%)', 'ठूला (१३.९%)', 'सूक्ष्म (१०%)'],
+    datasets: [{
+      data: [56.1, 20.0, 13.9, 10.0],
+      backgroundColor: [crimson, gold, green, teal],
+      borderWidth: 2, borderColor: '#fff'
+    }]
+  },
+  options: { plugins: { legend: { position: 'bottom' } } }
+});
+
+// TOURISM CHART
+new Chart(document.getElementById('tourismChart'), {
+  type: 'bar',
+  data: {
+    labels: ['२०१९', '२०२०', '२०२१', '२०२२', '२०२३', '२०२४', '२०२५'],
+    datasets: [{
+      label: 'पर्यटक आगमन (हजारमा)',
+      data: [1197, 230, 150, 614, 1004, 1040, 1162],
+      backgroundColor: palette,
+      borderRadius: 6, yAxisID: 'y'
+    }, {
+      label: 'औसत बसाइ (दिन)',
+      data: [13.5, 8.2, 7.5, 13.1, 14.2, 15.8, 16.34],
+      type: 'line', borderColor: gold, pointRadius: 5,
+      pointBackgroundColor: gold, tension: 0.4, yAxisID: 'y1'
+    }]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom' } },
+    scales: {
+      y: { position: 'left', ticks: { callback: v => v + 'K' } },
+      y1: { position: 'right', grid: { drawOnChartArea: false } }
+    }
+  }
+});
+
+// ENERGY CHART
+new Chart(document.getElementById('energyChart'), {
+  type: 'line',
+  data: {
+    labels: ['२०७७', '२०७८', '२०७९', '२०८०', '२०८१', '२०८२ फागुन'],
+    datasets: [{
+      label: 'कुल जडित क्षमता (MW)',
+      data: [1400, 1800, 2200, 2800, 3600, 4105],
+      borderColor: gold, backgroundColor: 'rgba(212,160,23,0.15)',
+      tension: 0.4, fill: true, pointRadius: 5
+    }, {
+      label: 'जलविद्युत (MW)',
+      data: [1380, 1750, 2150, 2700, 3500, 3798],
+      borderColor: teal, backgroundColor: 'rgba(0,105,92,0.05)',
+      tension: 0.4, borderDash: [5, 3]
+    }]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom' } },
+    scales: { y: { ticks: { callback: v => v + ' MW' } } }
+  }
+});
+
+// TELECOM CHART
+new Chart(document.getElementById('telecomChart'), {
+  type: 'bar',
+  data: {
+    labels: ['मोबाइल बैंकिङ', 'इन्टरनेट बैंकिङ', 'डिम्याट खाता', 'स्वास्थ्य बीमा', 'सामाजिक सुरक्षा'],
+    datasets: [{
+      label: 'लाखमा',
+      data: [294, 23.74, 76.39, 21.48, 36.41],
+      backgroundColor: [crimson, gold, teal, green, purple],
+      borderRadius: 8
+    }]
+  },
+  options: { plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: v => v + ' L' } } } }
+});
+
+// SOCIAL CHART
+new Chart(document.getElementById('socialChart'), {
+  type: 'radar',
+  data: {
+    labels: ['शिशु स्वास्थ्य', 'मातृ स्वास्थ्य', 'आधारभूत शिक्षा', 'माध्यमिक शिक्षा', 'खानेपानी', 'लैँगिक समानता'],
+    datasets: [{
+      label: '२०८२/८३ उपलब्धि',
+      data: [73, 70, 97.8, 51.6, 97, 88.5],
+      backgroundColor: 'rgba(46,125,50,0.15)',
+      borderColor: green, pointBackgroundColor: green, pointRadius: 5
+    }, {
+      label: 'लक्ष्य (%))',
+      data: [90, 85, 100, 80, 100, 95],
+      backgroundColor: 'rgba(212,160,23,0.1)',
+      borderColor: gold, borderDash: [5, 3], pointRadius: 3
+    }]
+  },
+  options: {
+    scales: { r: { min: 0, max: 100, ticks: { stepSize: 20 } } },
+    plugins: { legend: { position: 'bottom' } }
+  }
+});
+
+// PROVINCE PIE
+new Chart(document.getElementById('provinceChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['वागमती', 'कोशी', 'लुम्बिनी', 'मधेश', 'गण्डकी', 'सुदूरपश्चिम', 'कर्णाली'],
+    datasets: [{
+      data: [36.7, 15.8, 14.2, 13.1, 9.0, 7.0, 4.2],
+      backgroundColor: ['#c62828','#1565c0','#2e7d32','#ad1457','#00695c','#37474f','#e65100'],
+      borderWidth: 3, borderColor: '#fff'
+    }]
+  },
+  options: { plugins: { legend: { position: 'bottom' } }, cutout: '55%' }
+});
+
+// PROVINCE INCOME
+new Chart(document.getElementById('provinceIncomeChart'), {
+  type: 'bar',
+  data: {
+    labels: ['वागमती', 'गण्डकी', 'लुम्बिनी', 'कोशी', 'सुदूरपश्चिम', 'कर्णाली', 'मधेश'],
+    datasets: [{
+      label: 'प्रतिव्यक्ति आय (USD)',
+      data: [2644, 1680, 1420, 1390, 1150, 1050, 934],
+      backgroundColor: ['#c62828','#00695c','#2e7d32','#1565c0','#37474f','#e65100','#ad1457'],
+      borderRadius: 8
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: { x: { ticks: { callback: v => '$' + v } } }
+  }
+});
+
+// GHG CHART
+new Chart(document.getElementById('ghgChart'), {
+  type: 'pie',
+  data: {
+    labels: ['कृषि/वन (AFOLU)', 'ऊर्जा', 'औद्योगिक (IPPU)', 'फोहोर/अन्य'],
+    datasets: [{
+      data: [74, 17, 5, 4],
+      backgroundColor: [green, gold, crimson, teal],
+      borderWidth: 2, borderColor: '#fff'
+    }]
+  },
+  options: { plugins: { legend: { position: 'bottom' } } }
+});
+
+// SDG CHART
+new Chart(document.getElementById('sdgChart'), {
+  type: 'bar',
+  data: {
+    labels: ['गरिबी निवारण', 'भोक उन्मूलन', 'स्वास्थ्य', 'शिक्षा', 'लैँगिक समानता', 'स्वच्छ पानी', 'ऊर्जा', 'रोजगारी', 'वन'],
+    datasets: [{
+      label: 'SDG प्रगति स्कोर',
+      data: [62, 55, 67, 71, 68, 70, 75, 58, 78],
+      backgroundColor: [crimson, gold, teal, green, purple, darkBlue, '#00695C', '#E65100', '#2E7D32'].map(c => c + 'CC'),
+      borderRadius: 6
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: { y: { max: 100, ticks: { callback: v => v + '%' } } }
+  }
+});
+
+// ===== NAV ACTIVE ON SCROLL =====
+const sections = document.querySelectorAll('section[id]');
+const navBtns = document.querySelectorAll('.nav-btn');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  const map = { gdp: 0, 'public-finance': 1, monetary: 2, external: 3, poverty: 4, agri: 5, industry: 6, energy: 7, social: 8, province: 9, climate: 10 };
+  if (map[current] !== undefined) {
+    navBtns.forEach(b => b.classList.remove('active'));
+    if (navBtns[map[current]]) navBtns[map[current]].classList.add('active');
+  }
+});
+</script>
+</body>
+</html>
